@@ -1,1 +1,1 @@
-# Applying-IoT-technology-to-control-home-appliances
+# Applying IoT Technology To Control Home Appliances
