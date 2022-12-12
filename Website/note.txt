@@ -1,0 +1,3 @@
+https://codepen.io/cybnix/pen/xNegWz
+
+https://console.firebase.google.com/project/iot-home-4d236/database/iot-home-4d236-default-rtdb/data/~2Fiot-home~2Fdevices

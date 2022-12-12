@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>App Smart Home</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.0-alpha14/css/tempusdominus-bootstrap-4.min.css" />
+   
+    <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
+    <script src='main.js'></script>
+</head>
+<body>
+    <div class="dashboard">
+        <header>
+          <div class="f fe">
+            <div class="icon icon-w"></div>
+            <div class="heading">
+              <h2 class="title">
+                <div id="date"></div>
+              </h2>
+            </div>
+          </div>
+          
+            <div id="banner">
+              <div id="datn1"><img src="banner4.jpg"class="can1"/></div>
+              
+              <div id="datn2"><img src="banner2.jpg"class="can2"/></div>
+
+              <div id="datn"><b><p>Đồ Án Tốt Nghiệp<br>Đề Tài: Ứng dụng IOT điều khiển các thiết bị điện trong nhà<small><br>SVTH: Đặng Ngọc Quốc Bảo 18DT2<br>Người HD: ThS. Hồ Viết Việt</small></p></b></div>
+              
+              <div onclick="handleLogout()">
+                <i class="fa fa-sign-out" aria-hidden="true" id="logout"></i>
+              </div>
+
+            </div>
+        </header>
+        <section>
+        <!-- Category -->
+          <div class="category" id="listDevice">
+          </div>
+        <!-- Appliances -->
+          <div class="appliances">
+
+            <div class="appliance">
+              <input type="checkbox" name="a" id="a">
+              <label for="a">
+                
+                <i class="l"></i>
+                <input type="text" class="form-control" id="nameD1" value="D1">
+                <span id="statusDevice" data-o="opened" data-c="closed"></span>
+                <p id="timeOnOffLamp">TIME ON
+                  <input type="datetime-local" class="time-off-on" id="timeOnD1"/>
+                  <br>
+                  TIME OFF 
+                  <input type="datetime-local" class="time-off-on" id="timeOffD1"/>
+                </p>
+                <small></small>
+              </label>
+            </div>
+            
+            <div class="appliance">
+              <input type="checkbox" name="b" id="b">
+              <label for="b">
+                <i class="r"></i>
+                <input type="text" class="form-control" id="nameD2" value="D2">
+                <span data-o="opened" data-c="closed"></span>
+                <p id="timeOnOffLamp">TIME ON
+                  <input type="datetime-local" class="time-off-on" id="timeOnD2"/>
+                  <br>
+                  TIME OFF 
+                  <input type="datetime-local" class="time-off-on" id="timeOffD2"/>
+                </p>
+                <small></small>
+              </label>
+            </div>
+            
+            <div class="appliance">
+              <input type="checkbox" name="c" id="c">
+              <label for="c">
+                <i class="a"></i>
+                <input type="text" class="form-control" id="nameD3" value="D3">
+                <span data-o="opened" data-c="closed"></span>
+                <p id="timeOnOffLamp">TIME ON
+                  <input type="datetime-local" class="time-off-on" id="timeOnD3"/>
+                  <br>
+                  TIME OFF 
+                  <input type="datetime-local" class="time-off-on" id="timeOffD3"/>
+                </p>    
+                <small></small>
+              </label>
+            </div>
+          </div>
+        </section>
+      </div>
+      
+
+      <script src="https://www.gstatic.com/firebasejs/7.4.0/firebase-app.js"></script>
+      <script src="https://www.gstatic.com/firebasejs/7.4.0/firebase-analytics.js"></script>
+      <script src="https://www.gstatic.com/firebasejs/7.2.1/firebase-auth.js"></script>
+      <script src="https://www.gstatic.com/firebasejs/3.1.0/firebase-database.js"></script>
+        <script>
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+        apiKey: "AIzaSyCF92ixJjodLzGGpPIWT2bLMb6ccympISY",
+        authDomain: "iot-home-4d236.firebaseapp.com",
+        databaseURL: "https://iot-home-4d236-default-rtdb.firebaseio.com",
+        projectId: "iot-home-4d236",
+        storageBucket: "iot-home-4d236.appspot.com",
+        messagingSenderId: "985638841854",
+        appId: "1:985638841854:web:a6e78c99c62ce9bd0de4af",
+        measurementId: "G-CKXHN649CL"
+      };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        firebase.analytics();
+          </script>
+        <script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+      <script type="text/javascript" src="main.js" ></script>
+      </script>
+
+
+
+      <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.0-alpha14/js/tempusdominus-bootstrap-4.min.js"></script>
+
+    <script type="text/javascript">
+      $(function () {
+        $('#datetimepicker1').datetimepicker();
+      });  
+    </script>
+
+
+    </body>
+</html>

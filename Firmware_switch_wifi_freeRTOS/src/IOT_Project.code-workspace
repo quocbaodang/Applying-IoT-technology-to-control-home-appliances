@@ -1,0 +1,47 @@
+{
+	"folders": [
+		{
+			"name": "IOT_Project",
+			"path": ".."
+		}
+	],
+	"settings": {
+		"files.associations": {
+			"ios": "cpp",
+			"random": "cpp",
+			"*.tcc": "cpp",
+			"istream": "cpp",
+			"locale": "cpp",
+			"numeric": "cpp",
+			"ostream": "cpp",
+			"fstream": "cpp",
+			"sstream": "cpp",
+			"__locale": "cpp",
+			"__string": "cpp",
+			"string": "cpp",
+			"string_view": "cpp",
+			"filesystem": "cpp",
+			"*.inc": "cpp",
+			"bitset": "cpp",
+			"set": "cpp",
+			"__bit_reference": "cpp",
+			"__hash_table": "cpp",
+			"__split_buffer": "cpp",
+			"__tree": "cpp",
+			"array": "cpp",
+			"deque": "cpp",
+			"initializer_list": "cpp",
+			"iterator": "cpp",
+			"list": "cpp",
+			"map": "cpp",
+			"unordered_map": "cpp",
+			"vector": "cpp",
+			"ranges": "cpp",
+			"stdexcept": "cpp",
+			"memory": "cpp",
+			"optional": "cpp",
+			"unordered_set": "cpp",
+			"regex": "cpp"
+		}
+	}
+}
