@@ -4,10 +4,9 @@ const bool ___debug = true;
 
 void output_(int PIN) {
   pinMode(PIN, OUTPUT);
-  digitalWrite(PIN, STATE_ON);
 }
 
-void input_(int PIN) { pinMode(PIN, INPUT_PULLUP); }
+void input_(int PIN) { pinMode(PIN, INPUT_PULLDOWN); }
 
 void print_(String text) {
   if (___debug) {

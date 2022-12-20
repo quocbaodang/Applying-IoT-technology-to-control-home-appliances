@@ -139,8 +139,8 @@ void AsyncWiFiManager::setupConfigPortal() {
                               std::placeholders::_1, true))
       .setFilter(ON_AP_FILTER);
   server
-      ->on("/0wifi", std::bind(&AsyncWiFiManager::handleWifi, this,
-                               std::placeholders::_1, false))
+      ->on("/control", std::bind(&AsyncWiFiManager::handleControl, this,
+                               std::placeholders::_1))
       .setFilter(ON_AP_FILTER);
   server
       ->on("/wifisave", std::bind(&AsyncWiFiManager::handleWifiSave, this,
@@ -152,6 +152,30 @@ void AsyncWiFiManager::setupConfigPortal() {
       .setFilter(ON_AP_FILTER);
   server
       ->on("/r", std::bind(&AsyncWiFiManager::handleReset, this,
+                           std::placeholders::_1))
+      .setFilter(ON_AP_FILTER);
+  server
+      ->on("/bat1", std::bind(&AsyncWiFiManager::bat1, this,
+                           std::placeholders::_1))
+      .setFilter(ON_AP_FILTER);
+  server
+      ->on("/bat2", std::bind(&AsyncWiFiManager::bat2, this,
+                           std::placeholders::_1))
+      .setFilter(ON_AP_FILTER);
+  server
+      ->on("/bat3", std::bind(&AsyncWiFiManager::bat3, this,
+                           std::placeholders::_1))
+      .setFilter(ON_AP_FILTER);
+  server
+      ->on("/tat1", std::bind(&AsyncWiFiManager::tat1, this,
+                           std::placeholders::_1))
+      .setFilter(ON_AP_FILTER);
+  server
+      ->on("/tat2", std::bind(&AsyncWiFiManager::tat2, this,
+                           std::placeholders::_1))
+      .setFilter(ON_AP_FILTER);
+  server
+      ->on("/tat3", std::bind(&AsyncWiFiManager::tat3, this,
                            std::placeholders::_1))
       .setFilter(ON_AP_FILTER);
   server
@@ -205,7 +229,7 @@ String getESP32ChipID() {
 #endif
 
 boolean AsyncWiFiManager::autoConnect() {
-  String ssid = "WIOT_" + String(Local.getToken());
+  String ssid = "SWITCH_" + String(Local.getToken());
   return autoConnect(ssid.c_str(), NULL);
 }
 
@@ -477,7 +501,7 @@ void AsyncWiFiManager::safeLoop() {
 }
 
 boolean AsyncWiFiManager::startConfigPortal() {
-  String ssid = "WIOT_" + String(Local.getToken());
+  String ssid = "SWITCH_" + String(Local.getToken());
   return startConfigPortal(ssid.c_str(), NULL);
 }
 
@@ -769,7 +793,8 @@ void AsyncWiFiManager::handleRoot(AsyncWebServerRequest *request) {
   }
 
   DEBUG_WM(F("Sending Captive Portal"));
-
+  String name = Local.getSwitchName();
+  println_("Name: " + name);
   String page = FPSTR(WFM_HTTP_HEAD);
   page.replace("{v}", "Options");
   page += FPSTR(HTTP_SCRIPT);
@@ -779,10 +804,14 @@ void AsyncWiFiManager::handleRoot(AsyncWebServerRequest *request) {
   page += "<h1>";
   page += _apName;
   page += "</h1>";
+  page += F("<h3><b>Switch Name: {name-device}</font></b></h3>");
+  page += "</h1>";
   page += F("<h3>Created by Dang Ngoc Quoc Bao</h3>");
   page += FPSTR(HTTP_PORTAL_OPTIONS);
   page += _customOptionsElement;
   page += FPSTR(HTTP_END);
+
+  page.replace("{name-device}", name);
 
   request->send(200, "text/html", page);
   DEBUG_WM(F("Sent..."));
@@ -802,7 +831,6 @@ void AsyncWiFiManager::handleWifi(AsyncWebServerRequest *request,
   page += FPSTR(HTTP_STYLE);
   page += _customHeadElement;
   page += FPSTR(HTTP_HEAD_END);
-  page += FPSTR(HTTP_BACK);
 
   if (scan) {
     wifiSSIDscan = false;
@@ -897,13 +925,105 @@ void AsyncWiFiManager::handleWifi(AsyncWebServerRequest *request,
   page += FPSTR(HTTP_FORM_END);
   page += FPSTR(HTTP_SCAN_LINK);
   page += FPSTR(HTTP_END);
+  page += FPSTR(HTTP_BACK);
 
   request->send(200, "text/html", page);
 
   DEBUG_WM(F("Sent config page"));
 }
 
+void AsyncWiFiManager::bat1(AsyncWebServerRequest *request) {
+  println_("Bat 1");
+  setPin_(D1_PIN, true);
+  Local.write('1', KEY_STATE_D1);
+};
+void AsyncWiFiManager::tat1(AsyncWebServerRequest *request) {
+  println_("Tat 1");
+  setPin_(D1_PIN, false);
+  Local.write('0', KEY_STATE_D1);
+};
+void AsyncWiFiManager::bat2(AsyncWebServerRequest *request) {
+  println_("Bat 2");
+  setPin_(D2_PIN, true);
+  Local.write('1', KEY_STATE_D2);
+};
+void AsyncWiFiManager::tat2(AsyncWebServerRequest *request) {
+  println_("Tat 2");
+  setPin_(D2_PIN, false);
+  Local.write('0', KEY_STATE_D2);
+};
+void AsyncWiFiManager::bat3(AsyncWebServerRequest *request) {
+  println_("Bat 3");
+  setPin_(D3_PIN, true);
+  Local.write('1', KEY_STATE_D3);
+};
+void AsyncWiFiManager::tat3(AsyncWebServerRequest *request) {
+  println_("Tat 3");
+  setPin_(D3_PIN, false);
+  Local.write('0', KEY_STATE_D3);
+};
+
 // handle the WLAN save form and redirect to WLAN config page again
+void AsyncWiFiManager::handleControl(AsyncWebServerRequest *request) {
+  DEBUG_WM(F("Control device"));
+String page =
+{
+  "<!DOCTYPE html>"
+  "<html>"
+  "<head>"
+  "   <meta http-equiv='Content-Type' content='text/html; charset=utf-8'>"
+  "  <title>CONTROL DEVICE</title>"
+  "  <meta name='viewport' content='width=device-width, initial-scale=1'>"
+  "  <style>"
+  "    .b{width: 150px;height: 40px;font-size: 21px;color: #FFF;background-color:#4caf50;border-radius: 10px;}"
+  "    .t{width: 150px;height: 40px;font-size: 21px;color: #FFF;background-color:#f44336;border-radius: 10px;}"
+  "    .h{width: 100px;height: 40px;font-size: 21px;color: #FFF;background-color:#082bf2;border-radius: 10px;}"
+  "  </style>"
+  "</head>"
+  "<body>"
+  "<div style='width: 330px;height: auto;margin: 0 auto;margin-top: 70px'>"
+  "<h1 align='center'>CONTROL THE DEVICE</h1>"
+  "  <table align='center'>"
+  "    <td><h3><b><font color=\"1fa3ec\">{tb1-device}</font></b></h3></td></td>"
+  "    <tr>"
+  "    <td><a href='/bat1' method=\"post\"><button class='b'>TURN ON</button></a><td>"
+  "    <td><a href='/tat1' method=\"post\"><button class='t'>TURN OFF</button></a><td>"
+  "    <tr>"
+  "    <td><h3><b><font color=\"1fa3ec\">{tb2-device}</font></b></h3></td></td>"
+  "    <tr>"
+  "    <td><a href='/bat2' method=\"post\"><button class='b'>TURN ON</button></a><td>"
+  "    <td><a href='/tat2' method=\"post\"><button class='t'>TURN OFF</button></a><td>"
+  "    <tr>"
+  "    <td><h3><b><font color=\"1fa3ec\">{tb3-device}</font></b></h3></td></td>"
+  "    <tr>"
+  "    <td><a href='/bat3' method=\"post\"><button class='b'>TURN ON</button></a><td>"
+  "    <td><a href='/tat3' method=\"post\"><button class='t'>TURN OFF</button></a><td>"
+  "    <tr>"
+  "  </table>"
+  "  <form action=\"/\" method=\"get\" align='center'>"
+  "    <form action=\"/submit\" method=\"post\"><td><button class='h'>Back</button></td></form>"
+  "  </form>"
+  "</div>"
+  "</body>"
+  "</html>"
+};
+
+String name1 = Local.read(KEY_START_D1, KEY_END_D1);
+String name2 = Local.read(KEY_START_D2, KEY_END_D2);
+String name3 = Local.read(KEY_START_D3, KEY_END_D3);
+println_("Name: " + name1);
+println_("Name: " + name2);
+println_("Name: " + name3);
+page.replace("{tb3-device}", name3);
+page.replace("{tb2-device}", name2);
+page.replace("{tb1-device}", name1);
+
+request->send(200, "text/html", page);
+
+
+// connect = true;  // signal ready to connect/reset
+}
+
 void AsyncWiFiManager::handleWifiSave(AsyncWebServerRequest *request) {
   DEBUG_WM(F("WiFi save"));
 
@@ -1024,22 +1144,19 @@ String AsyncWiFiManager::infoAsString() {
 
 void AsyncWiFiManager::handleInfo(AsyncWebServerRequest *request) {
   DEBUG_WM(F("Info"));
+  String name = Local.getSwitchName();
+  String id = Local.getToken();
 
   String page = FPSTR(WFM_HTTP_HEAD);
   page.replace("{v}", "Info");
   page += FPSTR(HTTP_SCRIPT);
   page += FPSTR(HTTP_STYLE);
   page += _customHeadElement;
-  if (connect == true) {
-    page += F("<meta http-equiv=\"refresh\" content=\"5; url=/i\">");
-  }
   page += FPSTR(HTTP_HEAD_END);
+  page += FPSTR(HTTP_INFO_CUSTTOM);
   page += F("<dl>");
-  if (connect == true) {
-    page += F("<dt>Trying to connect</dt><dd>");
-    page += wifiStatus;
-    page += F("</dd>");
-  }
+  page.replace("{id-device}", id);
+  page.replace("{name-device}", name);
   page += pager;
   page += FPSTR(HTTP_END);
   page += FPSTR(HTTP_BACK);

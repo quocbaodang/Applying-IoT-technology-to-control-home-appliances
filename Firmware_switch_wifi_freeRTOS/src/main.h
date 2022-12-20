@@ -15,7 +15,7 @@ void checkConnect();
 void runCallBack1(void* parameter);
 void runCallBack2(void* parameter);
 void runCallBack3(void* parameter);
-void checkTimer(void* parameter);
+void checkTime(void* parameter);
 void checkInternet(void* parameter);
 
 #endif /** __MAIN_RUN_H__ **/

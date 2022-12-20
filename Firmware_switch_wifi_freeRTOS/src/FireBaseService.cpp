@@ -84,41 +84,72 @@ void streamCallbackSevice(StreamData data) {
   String path = data.dataPath();
   // Get state
   if (path == (String)STATE1_PATH + "/state") {
-    stateDevice.stateD1 = data.boolData();
-    setPin_(D1_PIN, stateDevice.stateD1);
-    println_("Path: " + path);
-    println_("State: " + (String)stateDevice.stateD1);
+    bool st = data.boolData();
+    stateDevice.stateD1 = st;
+    setPin_(D1_PIN, st);
+    Local.write((char)st, KEY_STATE_D1);
+    println_("State: " + (String)st);
   }
   if (path == (String)STATE2_PATH + "/state") {
-    stateDevice.stateD2 = data.boolData();
-    setPin_(D2_PIN, stateDevice.stateD2);
-    println_("Path: " + path);
-    println_("State: " + (String)stateDevice.stateD2);
+    bool st = data.boolData();
+    stateDevice.stateD2 = st;
+    setPin_(D2_PIN, st);
+    Local.write((char)st, KEY_STATE_D2);
+    println_("State: " + (String)st);
   }
   if (path == (String)STATE3_PATH + "/state") {
-    stateDevice.stateD3 = data.boolData();
-    setPin_(D3_PIN, stateDevice.stateD3);
-    println_("Path: " + path);
-    println_("State: " + (String)stateDevice.stateD3);
+    bool st = data.boolData();
+    stateDevice.stateD3 = st;
+    setPin_(D3_PIN, st);
+    Local.write((char)st, KEY_STATE_D3);
+    println_("State: " + (String)st);
+  }
+  // Get name device
+  if (path == (String)STATE1_PATH + "/name") {
+    String name = data.stringData();
+    Local.write(name, KEY_START_D1, KEY_END_D1);
+    println_("D1 Name: " + name);
+  }
+  if (path == (String)STATE2_PATH + "/name") {
+    String name = data.stringData();
+    Local.write(name, KEY_START_D2, KEY_END_D2);
+    println_("D2 Name: " + name);
+  }
+  if (path == (String)STATE3_PATH + "/name") {
+    String name = data.stringData();
+    Local.write(name, KEY_START_D3, KEY_END_D3);
+    println_("D3 Name: " + name);
   }
   // get timer
   if (path == (String)STATE1_PATH + "/time_on") {
     D1.timeOn = data.stringData();
+    println_("D1 Time on: " + D1.timeOn);
   }
   if (path == (String)STATE1_PATH + "/time_off") {
     D1.timeOff = data.stringData();
+    println_("D1 Time off: " + D1.timeOff);
   }
   if (path == (String)STATE2_PATH + "/time_on") {
     D2.timeOn = data.stringData();
+    println_("D2 Time on: " + D2.timeOn);
   }
   if (path == (String)STATE2_PATH + "/time_off") {
     D2.timeOff = data.stringData();
+    println_("D2 Time off: " + D2.timeOff);
   }
   if (path == (String)STATE3_PATH + "/time_on") {
     D3.timeOn = data.stringData();
+    println_("D3 Time on: " + D3.timeOn);
   }
   if (path == (String)STATE3_PATH + "/time_off") {
     D3.timeOff = data.stringData();
+    println_("D3 Time off: " + D3.timeOff);
+  }
+  //get Name Switch
+  if (path == "/name") {
+    String nameSwitch = data.stringData();
+    println_("Name of switch wifi: " + nameSwitch);
+    Local.setSwitchName(nameSwitch);
   }
 }
 

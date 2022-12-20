@@ -77,8 +77,8 @@ const char HTTP_HEAD_END[] PROGMEM =
     "style='text-align:left;display:inline-block;min-width:260px;'>";
 const char HTTP_PORTAL_OPTIONS[] PROGMEM =
     "<form action=\"/wifi\" method=\"get\"><button>Configure "
-    "WiFi</button></form><br/><form action=\"/0wifi\" "
-    "method=\"get\"><button>Configure WiFi (No Scan)</button></form><br/><form "
+    "WiFi</button></form><br/><form action=\"/control\" "
+    "method=\"get\"><button>Control Device</button></form><br/><form "
     "action=\"/i\" method=\"get\"><button>Info</button></form><br/><form "
     "action=\"/r\" method=\"post\"><button>Reset</button></form>";
 const char HTTP_ITEM[] PROGMEM =
@@ -100,16 +100,7 @@ const char HTTP_SAVED[] PROGMEM =
     "fails reconnect to AP to try again</div>";
 const char HTTP_END[] PROGMEM = "</div></body></html>";
 
-const char HTTP_INFO_CUSTTOM[] PROGMEM =
-    "<h3><b><font color=\"1fa3ec\">ID: {id-device}</font></b></h3>   "
-    "<h3><b><font color=\"1fa3ec\">Name: "
-    "{name-device}</font></b></h3><br /><br /><br /><br /><h5><font "
-    "color=\"1fa3ec\">Enter new name</font></h5><form action=\"\" "
-    "method=\"get\"><input maxlength=\"10\" placeholder=\"{intput-name}\" "
-    "name=\"name\" /><br /><br /><form action=\"/submit\" "
-    "method=\"post\"><button>Change Name</button></form><br /><br /><form "
-    "action=\"/\" method=\"get\"><form action=\"/submit\" "
-    "method=\"post\"><button>Back</button></form></form></form>";
+const char HTTP_INFO_CUSTTOM[] PROGMEM = "<h3><b><font color=\"1fa3ec\">Token ID: {id-device}</font></b></h3><h3><b><font color=\"1fa3ec\">Switch Name: {name-device}</font></b></h3>";
 const char HTTP_BACK[] PROGMEM =
     "<form "
     "action=\"/\" method=\"get\"><form action=\"/submit\" "
@@ -165,7 +156,6 @@ class AsyncWiFiManager {
 #else
   AsyncWiFiManager(AsyncWebServer *server, DNSServer *dns);
 #endif
-
   void scan(boolean async = false);
   String scanModal();
   void loop();
@@ -305,6 +295,13 @@ class AsyncWiFiManager {
   void handleReset(AsyncWebServerRequest *);
   void handleNotFound(AsyncWebServerRequest *);
   boolean captivePortal(AsyncWebServerRequest *);
+  void handleControl(AsyncWebServerRequest *);
+  void bat1(AsyncWebServerRequest *);
+  void bat2(AsyncWebServerRequest *);
+  void bat3(AsyncWebServerRequest *);
+  void tat1(AsyncWebServerRequest *);
+  void tat2(AsyncWebServerRequest *);
+  void tat3(AsyncWebServerRequest *);
 
   // DNS server
   const byte DNS_PORT = 53;

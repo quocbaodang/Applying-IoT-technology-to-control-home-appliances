@@ -5,14 +5,17 @@
 #include "Define.h"
 
 // define register
-#define KEY_START_PASSWORD 100
-#define KEY_END_PASSWORD 130
-#define KEY_REGISTERED 450
-#define KEY_REGISTERED1 451
-#define KEY_REGISTERED2 452
-#define KEY_REGISTERED3 453
-#define KEY_REGISTERED4 454
-#define KEY_REGISTERED5 455
+#define KEY_START_NAME 1
+#define KEY_END_NAME 30
+#define KEY_START_D1 31
+#define KEY_END_D1 50
+#define KEY_START_D2 51
+#define KEY_END_D2 70
+#define KEY_START_D3 71
+#define KEY_END_D3 90
+#define KEY_STATE_D1 100
+#define KEY_STATE_D2 110
+#define KEY_STATE_D3 120
 
 class EepromClass {
  public:
@@ -32,7 +35,7 @@ class EepromClass {
   String read(int beginA, int endA);
 
   //   READ one
-  uint8_t read(int index);
+  char read(int index);
 
   // clear
   void clear(int beginA, int endA);
@@ -41,12 +44,12 @@ class EepromClass {
   void commit();
 
   String getToken();
-  String getPassword();
-  void setPassword(String password_);
+  String getSwitchName();
+  void setSwitchName(String switchName);
 
  private:
-  unsigned char TIME_DELAY = 2;
-  unsigned char EEPROM_SIZE = 64;
+  unsigned char TIME_DELAY = 5;
+  unsigned char EEPROM_SIZE = 128;
 };
 
 static EepromClass Local;
